@@ -8,7 +8,13 @@
 
 #include <chrono>
 #include <deque>
-#include <filesystem>
+
+#ifdef __ANDROID__
+    #include <boost/filesystem.hpp>
+#else
+    #include <filesystem>
+#endif
+
 #include <iostream>
 #include <mutex>
 #include <thread>
@@ -103,10 +109,17 @@ class client_shell : smgp::basic_shell::basic_shell
     {
         if (args.size() != 2)
             return false;
+    #ifdef __ANDROID__
+        if(!boost::filesystem::is_regular_file(args.at(1)))
+            return false;
+        if (boost::filesystem::file_size(args.at(1)) > smgp::message::MAX_DATA_LENGTH - smgp::message::HEADER_SIZE)
+            return false;
+    #else
         if(!std::filesystem::is_regular_file(args.at(1)))
             return false;
         if (std::filesystem::file_size(args.at(1)) > smgp::message::MAX_DATA_LENGTH - smgp::message::HEADER_SIZE)
             return false;
+    #endif
         if (m_client)
         {
             smgp::message::message _message{smgp::message::MESSAGE_TYPE::WRITE_FILE, m_client->get_address(), m_client->get_port(), args.at(1)};

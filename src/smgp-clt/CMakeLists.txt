@@ -26,7 +26,12 @@ target_include_directories(SMGP-CLT PUBLIC
 set_target_properties(SMGP-CLT PROPERTIES OUTPUT_NAME smgp-clt)
 
 # Get Boost.asio
-find_package(Boost COMPONENTS system)
+if (CMAKE_SYSTEM_NAME MATCHES "Android")
+    find_package(Boost COMPONENTS system filesystem)
+else()
+    find_package(Boost COMPONENTS system)
+endif()
+
 target_include_directories(SMGP-CLT PUBLIC "${Boost_INCLUDE_DIR}")
 target_link_libraries(SMGP-CLT PUBLIC "${Boost_LIBRARIES}")
 if (WIN32)
