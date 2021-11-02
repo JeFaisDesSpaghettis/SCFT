@@ -8,7 +8,7 @@ namespace smgp
         basic_shell::basic_shell()
         :
         quit(false),
-        m_log(40, 25)
+        m_log(SCROLL_LOG_WIDTH, SCROLL_LOG_HEIGHT)
         {
             m_commands.insert(std::make_pair("quit", std::bind(&basic_shell::set_quit, this)));
         }

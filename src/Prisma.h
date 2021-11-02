@@ -94,8 +94,8 @@ typedef struct _prsm_xypos
 	}
 
 #elif __linux__
-	#include <termios.h>
 	#include <sys/ioctl.h>
+	#include <termios.h>
 	#include <unistd.h>
 
 	static void prsm_enable_ansi_codes() {}

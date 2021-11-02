@@ -37,6 +37,30 @@ else()
     endif()
 endif()
 
+# Documentation
+find_package(Doxygen)
+option(BUILD_DOCUMENTATION "Create and install the HTML based API
+documentation (requires Doxygen)" "${DOXYGEN_FOUND}")
+
+# https://stackoverflow.com/questions/34878276/build-doxygen-from-cmake-script
+if (BUILD_DOCUMENTATION)
+    if (NOT DOXYGEN_FOUND)
+        message(FATAL_ERROR "Doxygen is needed to build the documentation")
+    endif()
+
+    file(RELATIVE_PATH RELATIVE_BINARY_DIR "${SMGP_ROOT_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in" "${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile")
+
+    message("Doxygen build started")
+    add_custom_target(docs
+        COMMAND "${DOXYGEN_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM)
+
+    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/docs/html" DESTINATION "${CMAKE_INSTALL_PREFIX}/share/doc/SMGP")
+endif()
+
 # Build SMGP
 include("${SMGP-SRV_SRC_DIR}/CMakeLists.txt")
 include("${SMGP-CLT_SRC_DIR}/CMakeLists.txt")

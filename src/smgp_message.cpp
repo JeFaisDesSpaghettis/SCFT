@@ -9,11 +9,6 @@ namespace smgp
             m_raw_message.resize(HEADER_SIZE);
         }
 
-        message::message(const std::string& origin, const std::string& _str)
-        {
-            init_as_text(origin, _str);
-        }
-
         message::message(MESSAGE_TYPE message_type, const std::string& address, std::uint16_t port, const std::string& _str)
         {
             if (message_type == TEXT)
@@ -50,17 +45,19 @@ namespace smgp
             in_file.seekg(0, std::ios::beg);
             in_file.clear();
 
-            m_raw_message.resize(HEADER_SIZE + origin.size() + 1 + filepath.size() + 1 + file_size);
+            std::string out_filepath = filepath.substr(filepath.find_last_of("/\\") + 1);
+
+            m_raw_message.resize(HEADER_SIZE + origin.size() + 1 + out_filepath.size() + 1 + file_size);
 
             *reinterpret_cast<std::uint8_t*>(m_raw_message.data() + MESSAGE_TYPE_OFFSET) = static_cast<std::uint8_t>(MESSAGE_TYPE::WRITE_FILE);
             *reinterpret_cast<std::uint8_t*>(m_raw_message.data() + ORIGIN_LEN_OFFSET) = static_cast<std::uint8_t>(origin.size() + 1);
-            *reinterpret_cast<std::uint32_t*>(m_raw_message.data() + STRINGDATA_LEN_OFFSET) = static_cast<std::uint32_t>(filepath.size() + 1 + file_size);
+            *reinterpret_cast<std::uint32_t*>(m_raw_message.data() + STRINGDATA_LEN_OFFSET) = static_cast<std::uint32_t>(out_filepath.size() + 1 + file_size);
             std::memcpy(m_raw_message.data() + DATA_OFFSET, origin.data(), origin.size() + 1);
-            std::memcpy(m_raw_message.data() + DATA_OFFSET + origin.size() + 1, filepath.data(), filepath.size() + 1);
-            in_file.read(reinterpret_cast<char*>(m_raw_message.data() + DATA_OFFSET + origin.size() + 1 + filepath.size() + 1), file_size);
+            std::memcpy(m_raw_message.data() + DATA_OFFSET + origin.size() + 1, out_filepath.data(), out_filepath.size() + 1);
+            in_file.read(reinterpret_cast<char*>(m_raw_message.data() + DATA_OFFSET + origin.size() + 1 + out_filepath.size() + 1), file_size);
             in_file.close();
             *reinterpret_cast<std::uint32_t*>(m_raw_message.data() + CHECKSUM_OFFSET) =
-                crc32::get_crc32(reinterpret_cast<const std::uint8_t*>(m_raw_message.data() + DATA_OFFSET), origin.size() + 1 + filepath.size() + 1 + file_size);
+                crc32::get_crc32(reinterpret_cast<const std::uint8_t*>(m_raw_message.data() + DATA_OFFSET), origin.size() + 1 + out_filepath.size() + 1 + file_size);
         }
 
         message::~message()

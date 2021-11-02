@@ -103,6 +103,7 @@ class server_shell : smgp::basic_shell::basic_shell
             char ch = prsm_getch();
             while (true)
             {
+            #if __linux__
                 if (ch == 0x7F)
                 {
                     if (input_len > 0)
@@ -136,6 +137,21 @@ class server_shell : smgp::basic_shell::basic_shell
                 }
                 else if (ch == 0xA) { break; }
                 else if (std::isprint(ch)) { cur_command.push_back(ch); ++input_len; }
+            #elif _WIN32
+                if (ch == 0x8)
+                {
+                    if (input_len > 0)
+                    {
+                        cur_command.pop_back();
+                        --input_len;
+                    }
+                }
+                else if (ch == 0xD) { break; }
+                else if (std::isprint(ch))
+                {
+                    cur_command.push_back(ch); ++input_len;
+                }
+            #endif
                 std::cout << PRSM_LINE_CLEAR << '\r' << cur_command;
                 ch = prsm_getch();
             }

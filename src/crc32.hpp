@@ -1,6 +1,11 @@
 #ifndef CRC32_HPP
 #define CRC32_HPP
 
+/**
+ * @file src/crc32.hpp
+ * @brief Defines crc32 namespace, to get checksum
+*/
+
 #include <cstdint>
 
 #include <array>
@@ -10,20 +15,47 @@
 
 namespace smgp
 {
+
+    /**
+     * @brief CRC32 Checksum computing helper
+    */
     namespace crc32
     {
+
+        /**
+         * @brief Buffer chunk size when reading
+        */
         constexpr std::size_t BUFFER_SIZE = 8192;
 
-        // Calculate crc32 of a file
+        /**
+         * @brief Calculate crc32 of a file
+         * @param in_filename File path
+         * @param crc32 Needs to be specified if computing crc32 of different buffers
+         * @return CRC32 Checksum
+        */
         std::uint32_t get_crc32(const std::string& in_filename, std::uint32_t crc32 = ~0);
 
-        // Calculate crc32 of a file stream
+        /**
+         * @brief Calculate crc32 of a file stream
+         * @param in_file File stream
+         * @param crc32 Needs to be specified if computing crc32 of different buffers
+         * @return CRC32 Checksum
+        */
         std::uint32_t get_crc32(std::ifstream& in_file, std::uint32_t crc32 = ~0);
 
-        // Calculate crc32 of a buffer
+        /**
+         * @brief Calculate crc32 of a buffer
+         * @param in_buffer Buffer
+         * @param size Buffer size
+         * @param crc32 Needs to be specified if computing crc32 of different buffers
+         * @return CRC32 Checksum
+        */
         std::uint32_t get_crc32(const void* in_buffer, std::size_t size, std::uint32_t crc32 = ~0);
 
-        // With 0xEDB88320 as polynomial
+        /**
+         * @brief Lookup table with 0xEDB88320 as polynomial
+         * https://stackoverflow.com/questions/21001659/crc32-algorithm-implementation-in-c-without-a-look-up-table-and-with-a-public-li
+        */
         constexpr std::array<std::uint32_t, 256> crc32_table =
         {{
             0x00000000L, 0x77073096L, 0xee0e612cL, 0x990951baL,

@@ -3,3 +3,5 @@
 /wrapper.sh
 /src/smgp-srv/smgp-srv_version.hpp
 /src/smgp-clt/smgp-clt_version.hpp
+/src/key_test.cpp
+/src/crc_table.c
