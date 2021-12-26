@@ -2,7 +2,7 @@
 
 using boost::asio::ip::tcp;
 
-namespace smgp
+namespace scft
 {
     namespace server
     {

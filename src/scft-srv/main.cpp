@@ -12,7 +12,7 @@
 #include <mutex>
 #include <thread>
 
-class server_shell : smgp::basic_shell::basic_shell
+class server_shell : scft::basic_shell::basic_shell
 {
     public: server_shell()
     {
@@ -26,10 +26,10 @@ class server_shell : smgp::basic_shell::basic_shell
     private: bool cmd_help()
     {
         m_log.append_log(
-            "SMGP-SERVER v" +
-            std::to_string(SMGP_SRV_VERSION_MAJOR) + '.' +
-            std::to_string(SMGP_SRV_VERSION_MINOR) + '.' +
-            std::to_string(SMGP_SRV_VERSION_PATCH) + '\n');
+            "SCFT-SERVER v" +
+            std::to_string(SCFT_SRV_VERSION_MAJOR) + '.' +
+            std::to_string(SCFT_SRV_VERSION_MINOR) + '.' +
+            std::to_string(SCFT_SRV_VERSION_PATCH) + '\n');
         m_log.append_log("Available commands: \n");
         m_log.append_log("\thelp: Prints this: \n");
         m_log.append_log("\tstart [IP] [PORT]: Start server\n");
@@ -46,7 +46,7 @@ class server_shell : smgp::basic_shell::basic_shell
             return false;
         if (!m_server)
         {
-            m_server = std::make_unique<smgp::server::server>(m_io_ctx, args.at(1), boost::lexical_cast<std::uint16_t>(args.at(2)), m_log);
+            m_server = std::make_unique<scft::server::server>(m_io_ctx, args.at(1), boost::lexical_cast<std::uint16_t>(args.at(2)), m_log);
             io_ctx_run_thread = std::thread([&](){ m_io_ctx.run(); });
             m_log.append_log("Started server\n");
             return true;
@@ -163,7 +163,7 @@ class server_shell : smgp::basic_shell::basic_shell
         cmd_stop({""});
         update_log_thread.join();
     }
-    private: std::unique_ptr<smgp::server::server> m_server;
+    private: std::unique_ptr<scft::server::server> m_server;
     private: boost::asio::io_context m_io_ctx;
     private: std::thread io_ctx_run_thread;
 };

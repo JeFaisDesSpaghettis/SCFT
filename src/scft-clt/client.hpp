@@ -2,19 +2,19 @@
 #define CLIENT_HPP
 
 /**
- * @file src/smgp-clt/client.hpp
- * @brief Defines SMGP client class
+ * @file src/scft-clt/client.hpp
+ * @brief Defines SCFT client class
 */
 
-#include "smgp-clt_version.hpp"
-#include "smgp_message.hpp"
+#include "scft-clt_version.hpp"
+#include "scft_message.hpp"
 #include "scrolling_log.hpp"
 
 #include <cstdlib>
 #include <deque>
 #include <boost/asio.hpp>
 
-namespace smgp
+namespace scft
 {
     /**
      * @brief Client
@@ -22,7 +22,7 @@ namespace smgp
     namespace client
     {
         /**
-         * @brief SMGP Client
+         * @brief SCFT Client
         */
         class client
         {

@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <iostream>
 
-namespace smgp
+namespace scft
 {
     namespace basic_shell
     {

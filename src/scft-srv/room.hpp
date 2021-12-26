@@ -2,7 +2,7 @@
 #define ROOM_HPP
 
 /**
- * @file src/smgp-srv/room.hpp
+ * @file src/scft-srv/room.hpp
  * @brief Defines room class, used by server
 */
 
@@ -12,7 +12,7 @@
 #include <memory>
 #include <mutex>
 
-namespace smgp
+namespace scft
 {
     namespace server
     {

@@ -1,6 +1,6 @@
-#include "smgp_message.hpp"
+#include "scft_message.hpp"
 
-namespace smgp
+namespace scft
 {
     namespace message
     {

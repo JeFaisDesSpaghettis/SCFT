@@ -1,8 +1,8 @@
-#ifndef SMGP_MESSAGE_HPP
-#define SMGP_MESSAGE_HPP
+#ifndef SCFT_MESSAGE_HPP
+#define SCFT_MESSAGE_HPP
 
 /**
- * @file src/smgp_message.hpp
+ * @file src/scft_message.hpp
  * @brief Defines class message, to send structured information
 */
 
@@ -14,7 +14,7 @@
 #include <fstream>
 
 /**
- * @brief SMGP General namespace
+ * @brief SCFT General namespace
  * @verbatim
  * [1][2][0003][0004][ORIGIN...][STRINGDATA...]
  * 1: Identifier (MESSAGE_TYPE) 1 byte
@@ -23,7 +23,7 @@
  * 4: CRC32 checksum 4 bytes
  * @endverbatim
 */
-namespace smgp
+namespace scft
 {
     /**
      * @brief Message related namespace
@@ -206,4 +206,4 @@ namespace smgp
     }
 }
 
-#endif /* SMGP_MESSAGE_HPP */
+#endif /* SCFT_MESSAGE_HPP */

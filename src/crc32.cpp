@@ -1,6 +1,6 @@
 #include "crc32.hpp"
 
-namespace smgp
+namespace scft
 {
     namespace crc32
     {

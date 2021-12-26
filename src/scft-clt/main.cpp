@@ -19,7 +19,7 @@
 #include <mutex>
 #include <thread>
 
-class client_shell : smgp::basic_shell::basic_shell
+class client_shell : scft::basic_shell::basic_shell
 {
     public: client_shell()
     {
@@ -37,10 +37,10 @@ class client_shell : smgp::basic_shell::basic_shell
     private: bool cmd_help()
     {
         m_log.append_log(
-            "SMGP-CLIENT v" +
-            std::to_string(SMGP_CLT_VERSION_MAJOR) + '.' +
-            std::to_string(SMGP_CLT_VERSION_MINOR) + '.' +
-            std::to_string(SMGP_CLT_VERSION_PATCH) + '\n');
+            "SCFT-CLIENT v" +
+            std::to_string(SCFT_CLT_VERSION_MAJOR) + '.' +
+            std::to_string(SCFT_CLT_VERSION_MINOR) + '.' +
+            std::to_string(SCFT_CLT_VERSION_PATCH) + '\n');
         m_log.append_log("Available commands: \n");
         m_log.append_log("\thelp: Prints this: \n");
         m_log.append_log("\tconnect [IP] [PORT]: Connect to server\n");
@@ -61,7 +61,7 @@ class client_shell : smgp::basic_shell::basic_shell
             return false;
         if (!m_client)
         {
-            m_client = std::make_unique<smgp::client::client>(m_io_ctx, args.at(1), boost::lexical_cast<std::uint16_t>(args.at(2)), m_log);
+            m_client = std::make_unique<scft::client::client>(m_io_ctx, args.at(1), boost::lexical_cast<std::uint16_t>(args.at(2)), m_log);
             io_ctx_run_thread = std::thread([&](){ m_io_ctx.run(); });
             m_log.append_log("Started client\n");
             return true;
@@ -95,7 +95,7 @@ class client_shell : smgp::basic_shell::basic_shell
                 message_string.append(args.at(index));
                 message_string.push_back(' ');
             }
-            smgp::message::message _message{smgp::message::MESSAGE_TYPE::TEXT, m_client->get_address(), m_client->get_port(), message_string};
+            scft::message::message _message{scft::message::MESSAGE_TYPE::TEXT, m_client->get_address(), m_client->get_port(), message_string};
             m_client->send_message(_message);
             m_log.append_log(
                 "[" + m_client->get_address() + ":" + std::to_string(m_client->get_port()) + "]: " +
@@ -112,17 +112,17 @@ class client_shell : smgp::basic_shell::basic_shell
     #ifdef __ANDROID__
         if(!boost::filesystem::is_regular_file(args.at(1)))
             return false;
-        if (boost::filesystem::file_size(args.at(1)) > smgp::message::MAX_DATA_LENGTH - smgp::message::HEADER_SIZE)
+        if (boost::filesystem::file_size(args.at(1)) > scft::message::MAX_DATA_LENGTH - scft::message::HEADER_SIZE)
             return false;
     #else
         if(!std::filesystem::is_regular_file(args.at(1)))
             return false;
-        if (std::filesystem::file_size(args.at(1)) > smgp::message::MAX_DATA_LENGTH - smgp::message::HEADER_SIZE)
+        if (std::filesystem::file_size(args.at(1)) > scft::message::MAX_DATA_LENGTH - scft::message::HEADER_SIZE)
             return false;
     #endif
         if (m_client)
         {
-            smgp::message::message _message{smgp::message::MESSAGE_TYPE::WRITE_FILE, m_client->get_address(), m_client->get_port(), args.at(1)};
+            scft::message::message _message{scft::message::MESSAGE_TYPE::WRITE_FILE, m_client->get_address(), m_client->get_port(), args.at(1)};
             m_client->send_message(_message);
             m_log.append_log(
                 '[' + m_client->get_address() + ':' + std::to_string(m_client->get_port()) + "]: " +
@@ -227,7 +227,7 @@ class client_shell : smgp::basic_shell::basic_shell
         cmd_disconnect({""});
         update_log_thread.join();
     }
-    private: std::unique_ptr<smgp::client::client> m_client;
+    private: std::unique_ptr<scft::client::client> m_client;
     private: boost::asio::io_context m_io_ctx;
     private: std::thread io_ctx_run_thread;
 };

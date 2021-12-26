@@ -1,7 +1,7 @@
 #include "basic_shell.hpp"
 #include <algorithm>
 
-namespace smgp
+namespace scft
 {
     namespace basic_shell
     {

@@ -28,7 +28,7 @@
     #include <unistd.h>
 #endif
 
-namespace smgp
+namespace scft
 {
     /**
      * @brief Base CLI interface

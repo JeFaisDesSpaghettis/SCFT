@@ -2,16 +2,16 @@
 #define SERVER_HPP
 
 /**
- * @file src/smgp-srv/server.hpp
- * @brief Defines SMGP server class
+ * @file src/scft-srv/server.hpp
+ * @brief Defines SCFT server class
 */
 
-#include "smgp-srv_version.hpp"
+#include "scft-srv_version.hpp"
 #include "scrolling_log.hpp"
 #include "room.hpp"
 #include <boost/asio.hpp>
 
-namespace smgp
+namespace scft
 {
     /**
      * @brief Server
@@ -19,7 +19,7 @@ namespace smgp
     namespace server
     {
         /**
-         * @brief SMGP Server
+         * @brief SCFT Server
         */
         class server
         {

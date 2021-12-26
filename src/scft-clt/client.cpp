@@ -3,7 +3,7 @@
 
 using boost::asio::ip::tcp;
 
-namespace smgp
+namespace scft
 {
     namespace client
     {
@@ -94,7 +94,7 @@ namespace smgp
             {
                 if (!ec)
                 {
-                    std::uint32_t checksum = smgp::crc32::get_crc32(reinterpret_cast<std::uint8_t*>(m_message.get_data()), m_message.get_data_len());
+                    std::uint32_t checksum = scft::crc32::get_crc32(reinterpret_cast<std::uint8_t*>(m_message.get_data()), m_message.get_data_len());
                     if (checksum == m_message.get_checksum())
                         m_log.append_log("[CRC32 OK!]: ");
                     else

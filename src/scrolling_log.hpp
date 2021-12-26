@@ -10,7 +10,7 @@
  * @brief Defines scrolling_log, to help having a fixed size log
 */
 
-namespace smgp
+namespace scft
 {
     namespace basic_shell
     {

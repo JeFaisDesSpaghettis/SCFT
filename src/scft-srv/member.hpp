@@ -2,17 +2,17 @@
 #define MEMBER_HPP
 
 /**
- * @file src/smgp-srv/member.hpp
+ * @file src/scft-srv/member.hpp
  * @brief Defines member class, contained in the room
 */
 
-#include "smgp_message.hpp"
+#include "scft_message.hpp"
 #include "room.hpp"
 
 #include <boost/asio.hpp>
 #include <deque>
 
-namespace smgp
+namespace scft
 {
     namespace server
     {
